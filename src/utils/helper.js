@@ -31,7 +31,7 @@ export const getApproveTransactions = async (chainId, address) => {
 			throw new Error('Network not found');
 		}
 
-		let approved_transactions = [];
+		let approvedTransactions = [];
 
 		const query = network.apiUrl + address + '&apikey=' + network.apiKey;
 
@@ -55,9 +55,9 @@ export const getApproveTransactions = async (chainId, address) => {
 				}
 
 				if (parseInt(allowance, 16) > 0) {
-					approved_transactions.push(approveObj);
+					approvedTransactions.push(approveObj);
 				} else {
-					approved_transactions = approved_transactions.filter((tx) => {
+					approvedTransactions = approvedTransactions.filter((tx) => {
 						return !(tx.approved === approveObj.approved && tx.contract === tx.contract);
 					});
 				}
@@ -66,7 +66,7 @@ export const getApproveTransactions = async (chainId, address) => {
 				approveObj.token = tokenData;
 			}
 		}
-		return approved_transactions;
+		return approvedTransactions;
 	} catch (err) {
 		if (err.response) {
 			console.log(err.response.data);
